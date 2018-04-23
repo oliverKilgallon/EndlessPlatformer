@@ -4,7 +4,9 @@ public class PlayerController : MonoBehaviour
 {
     private int timesJumped;
     private Rigidbody rb;
+    private PlayerStats playerStats;
     private AudioSource[] audioSources;
+    private bool jumpRequest;
     
 	void Start ()
     {
@@ -14,20 +16,30 @@ public class PlayerController : MonoBehaviour
 
         audioSources = GetComponents<AudioSource>();
 
+        playerStats = GetComponent<PlayerStats>();
+
     }
 	
 	void Update ()
     {
         LeftRightMove(Input.GetAxis("Horizontal"));
+
+        if (Input.GetButtonDown("Jump") && !(timesJumped >= playerStats.jumpLimit))
+        {
+            jumpRequest = true;
+            timesJumped++;
+        }
     }
 
     private void FixedUpdate()
     {
-        if (Input.GetButtonDown("Jump") && (timesJumped != GetComponent<PlayerStats>().jumpLimit))
+        if (jumpRequest)
         {
-            rb.AddForce(Vector3.up * GetComponent<PlayerStats>().jumpMultiplier, ForceMode.Impulse);
+            rb.AddForce(Vector3.up * playerStats.jumpMultiplier, ForceMode.Impulse);
 
             timesJumped++;
+
+            jumpRequest = false;
 
             GetAudioSource("Jump").Play();
         }
@@ -35,13 +47,12 @@ public class PlayerController : MonoBehaviour
 
     private void LeftRightMove(float leftRightAxis)
     {
-
         Vector3 velocity;
 
         if ( ( leftRightAxis < 0 && rb.velocity.x > 0 ) || ( leftRightAxis > 0 && rb.velocity.x < 0 ) )
-            velocity = new Vector3(leftRightAxis * GetComponent<PlayerStats>().speed * 2f, 0, 0);
+            velocity = new Vector3(leftRightAxis * playerStats.speed * 2.5f, 0, 0);
         else
-            velocity = new Vector3(leftRightAxis * GetComponent<PlayerStats>().speed, 0, 0);
+            velocity = new Vector3(leftRightAxis * playerStats.speed, 0, 0);
 
         rb.velocity += velocity * Time.deltaTime;
     }

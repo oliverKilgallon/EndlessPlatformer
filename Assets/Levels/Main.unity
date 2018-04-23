@@ -464,13 +464,14 @@ GameObject:
   - component: {fileID: 579487946}
   - component: {fileID: 579487945}
   - component: {fileID: 579487944}
-  - component: {fileID: 579487943}
-  - component: {fileID: 579487942}
   - component: {fileID: 579487941}
-  - component: {fileID: 579487947}
+  - component: {fileID: 579487943}
+  - component: {fileID: 579487948}
   - component: {fileID: 579487950}
   - component: {fileID: 579487949}
-  - component: {fileID: 579487948}
+  - component: {fileID: 579487942}
+  - component: {fileID: 579487951}
+  - component: {fileID: 579487947}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -838,6 +839,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+--- !u!114 &579487951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 579487940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88655e0be77ca9042a211c74fc5b2aeb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fallMultiplier: 2.5
+  lowJumpMultiplier: 2
 --- !u!1001 &605105486
 Prefab:
   m_ObjectHideFlags: 0
@@ -1144,7 +1158,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leftEnd: {fileID: 1900280632}
   rightEnd: {fileID: 284733780}
-  ascendSpeed: 1
+  baseSpeed: 0.5
+  divisor: 5
 --- !u!120 &1022792261
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -1197,7 +1212,7 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
+      key0: {r: 0, g: 1, b: 0.37931037, a: 1}
       key1: {r: 1, g: 1, b: 1, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
@@ -1515,6 +1530,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   profile: {fileID: 11400000, guid: 620af247bdba8064083e6073189e9e45, type: 2}
+--- !u!1 &1887556417 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1316301171366044, guid: cfc2dc64530f2044e87b3506c9579aff,
+    type: 2}
+  m_PrefabInternal: {fileID: 605105486}
+--- !u!114 &1887556418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1887556417}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c56ac12053bc8b54db846e5c4f55d50f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pausePanel: {fileID: 0}
+  optionsPanel: {fileID: 0}
+  gameOverPanel: {fileID: 0}
 --- !u!1 &1900280632
 GameObject:
   m_ObjectHideFlags: 0
