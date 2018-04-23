@@ -36,7 +36,12 @@ public class PlayerController : MonoBehaviour
     private void LeftRightMove(float leftRightAxis)
     {
 
-        Vector3 velocity = new Vector3(leftRightAxis * GetComponent<PlayerStats>().speed, 0, 0);
+        Vector3 velocity;
+
+        if ( ( leftRightAxis < 0 && rb.velocity.x > 0 ) || ( leftRightAxis > 0 && rb.velocity.x < 0 ) )
+            velocity = new Vector3(leftRightAxis * GetComponent<PlayerStats>().speed * 2f, 0, 0);
+        else
+            velocity = new Vector3(leftRightAxis * GetComponent<PlayerStats>().speed, 0, 0);
 
         rb.velocity += velocity * Time.deltaTime;
     }
@@ -46,7 +51,7 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.tag.Equals("Platform"))
         {
             if (GetAudioSource("Landing2") && Time.time > 0.2f)
-                GetAudioSource("Landing2").Play();
+                GetAudioSource("Landing2").PlayOneShot(GetAudioSource("Landing2").clip);
 
             if (Vector3.Dot(collision.contacts[0].normal, Vector3.up) > 0)
             {
