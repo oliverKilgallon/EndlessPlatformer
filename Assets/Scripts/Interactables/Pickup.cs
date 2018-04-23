@@ -83,6 +83,11 @@ public class Pickup : MonoBehaviour
                 break;
         }
 
+        //ParticleSystem ps = pickupEffect.GetComponent<ParticleSystem>();
+        //ps.Stop();
+        //var main = ps.main;
+        //main.duration = pickupDuration;
+
         #endregion
     }
 
@@ -121,7 +126,7 @@ public class Pickup : MonoBehaviour
                 #region Slow powerup
 
                 //E.G if scaleIncrement is 0.2 then player will scale to 6/5ths original size
-                while ( player.transform.localScale.magnitude <= originalScale.magnitude * ( 1f + ( scaleIncrement * playerStats.powerupsStacked ) ) )
+                while ( player.transform.localScale.magnitude <= playerStats.defaultScale.magnitude * ( 1f + scaleIncrement ) )
                 {
                     player.transform.localScale += new Vector3(0.1f, 0.1f, 0.1f);
                     yield return null;
@@ -135,7 +140,7 @@ public class Pickup : MonoBehaviour
                 yield return new WaitForSeconds(pickupDuration);
 
                 //Return player to original size
-                while (player.transform.localScale.magnitude > originalScale.magnitude)
+                while (player.transform.localScale.magnitude > playerStats.defaultScale.magnitude)
                 {
                     player.transform.localScale -= new Vector3(0.1f, 0.1f, 0.1f);
 
@@ -156,7 +161,7 @@ public class Pickup : MonoBehaviour
                 #region Fast powerup
 
                 //E.G if scaleIncrement is 0.2 then player will scale to 4/5ths original size
-                while (player.transform.localScale.x > originalScale.magnitude * ( 1f - ( scaleIncrement * playerStats.powerupsStacked) ) )
+                while (player.transform.localScale.x > playerStats.defaultScale.magnitude * ( 1f - 2 * scaleIncrement ) )
                 {
                     player.transform.localScale -= new Vector3(0.1f, 0.1f, 0.1f);
 
@@ -164,7 +169,7 @@ public class Pickup : MonoBehaviour
                 }
                 
                 //Increase player speed and jump multiplier
-                playerStats.jumpMultiplier = playerStats.GetDefaultJumpMultiplier() + 1.5f;
+                playerStats.jumpMultiplier = playerStats.GetDefaultJumpMultiplier() + 2f;
 
                 playerStats.speed = playerStats.GetDefaultSpeed() + 3f;
 
@@ -172,7 +177,7 @@ public class Pickup : MonoBehaviour
 
 
                 //Return player to original scale
-                while (player.transform.localScale.magnitude < originalScale.magnitude)
+                while (player.transform.localScale.magnitude < playerStats.defaultScale.magnitude)
                 {
                     player.transform.localScale += new Vector3(0.1f, 0.1f, 0.1f);
 

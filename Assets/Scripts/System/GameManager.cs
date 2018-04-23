@@ -1,9 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 public class GameManager : MonoBehaviour
 {
@@ -27,19 +24,29 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
     }
 
     private void Update ()
     {
         if (player.GetComponent<PlayerStats>().GetPlayerState() == PlayerStats.PLAYER_STATE.DEAD)
         {
-            if (!Application.isEditor)
-                Application.Quit();
-#if UNITY_EDITOR
-            else
-                EditorApplication.isPlaying = false;
-#endif
+            PlayerPrefs.SetInt("highScore", player.GetComponent<PlayerStats>().score);
+
+            EndGame();
         }
 	}
+
+    public void EndGame()
+    {
+        if (player.GetComponent<PlayerStats>().score > PlayerPrefs.GetInt("highScore"))
+            PlayerPrefs.SetInt("highScore", player.GetComponent<PlayerStats>().score);
+
+        if (!Application.isEditor)
+            Application.Quit();
+        #if UNITY_EDITOR
+        else
+            UnityEditor.EditorApplication.isPlaying = false;
+        #endif
+    }
 }

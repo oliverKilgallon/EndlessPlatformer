@@ -51,5 +51,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 418d66a120d98cc449409dd1822d80df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  player: {fileID: 1475439471728190, guid: cea288304c9bc434aa0e63dd5e016eaa, type: 2}
+  platformDeletionDistance: 0
   platforms: []

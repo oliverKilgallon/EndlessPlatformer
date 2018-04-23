@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class Score : MonoBehaviour
+public class UI_Score : MonoBehaviour
 {
     public bool trackingLeft;
 
@@ -16,7 +16,9 @@ public class Score : MonoBehaviour
         if (trackingLeft)
             trackingNumber = 0;
         else
+        {
             trackingNumber = 1;
+        }
 
         xPos = (Screen.width * trackingNumber) + 50f + (-1f * 100f * trackingNumber);
     }
@@ -33,8 +35,10 @@ public class Score : MonoBehaviour
             transform.position = new Vector3( xPos, 50f, 0 );
 
         if (!trackingLeft)
+        {
             scoreText.text = "Highest: " + "\n" + GameManager.instance.player.GetComponent<PlayerStats>().score.ToString() + "m";
+        }
         else
-            scoreText.text = "Current: " + "\n" + ( (int) GameManager.instance.player.transform.position.y ).ToString() + "m";
+            scoreText.text = "Current: " + "\n" + ((int)GameManager.instance.player.transform.position.y).ToString() + "m";
 	}
 }

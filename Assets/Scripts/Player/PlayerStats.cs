@@ -17,7 +17,7 @@ public class PlayerStats : MonoBehaviour
 
     [HideInInspector]
     public int score;
-
+    
     [HideInInspector]
     public Vector3 highestHeight;
 
@@ -40,17 +40,22 @@ public class PlayerStats : MonoBehaviour
         defaultJumpMultiplier = jumpMultiplier;
 
         powerupsStacked = 0;
-        score = 0;
+        score = PlayerPrefs.GetInt("highScore", 0);
         highestHeight = new Vector3(0, 0, 0);
     }
 
     private void Update()
     {
-        if (transform.position.y > highestHeight.y)
+        if (transform.position.y > PlayerPrefs.GetInt("highScore", 0))
         {
             highestHeight = transform.position;
             score = (int) highestHeight.y;
         }
+    }
+
+    public void ResetScore()
+    {
+        PlayerPrefs.SetInt("highScore", 0);
     }
 
     #region Getters
