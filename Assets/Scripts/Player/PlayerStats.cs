@@ -17,6 +17,9 @@ public class PlayerStats : MonoBehaviour
 
     [HideInInspector]
     public int score;
+
+    [HideInInspector]
+    public int currentScore;
     
     [HideInInspector]
     public Vector3 highestHeight;
@@ -24,6 +27,7 @@ public class PlayerStats : MonoBehaviour
     public int jumpLimit;
     public float speed;
     public float jumpMultiplier;
+    public bool isPaused;
 
     private PLAYER_STATE playerState;
 
@@ -46,10 +50,12 @@ public class PlayerStats : MonoBehaviour
 
     private void Update()
     {
+        currentScore = (int) GameManager.instance.player.transform.position.y;
         if (transform.position.y > PlayerPrefs.GetInt("highScore", 0))
         {
             highestHeight = transform.position;
-            score = (int) highestHeight.y;
+            PlayerPrefs.SetInt("highScore", (int)highestHeight.y);
+            score = PlayerPrefs.GetInt("highScore", 0);
         }
     }
 

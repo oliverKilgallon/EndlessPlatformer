@@ -10,21 +10,12 @@ public class UI_PausePanel : MonoBehaviour {
 
     public void Quit()
     {
-        GameManager.instance.EndGame();
+        GameManager.instance.Quit();
     }
 
     public void Restart()
     {
-        PlayerPrefs.SetInt("highScore", GameManager.instance.player.GetComponent<PlayerStats>().score);
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Main");
-
-        //Reset player position and velocity
-        GameManager.instance.player.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
-        GameManager.instance.player.transform.position = new Vector3(0, 1, 0);
-
-        //Unpause game
-        Time.timeScale = 1f;
-        gameObject.SetActive(false);
+        GameManager.instance.Restart();
     }
 
     public void EnableOptions()

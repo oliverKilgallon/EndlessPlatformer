@@ -12,4 +12,19 @@ public class UI_ShowPanels : MonoBehaviour {
         optionsPanel.SetActive(isActive);
         gameOverPanel.SetActive(isActive);
     }
+
+    public void ToggleMenus()
+    {
+        if (!pausePanel.activeInHierarchy && !optionsPanel.activeInHierarchy)
+        {
+            pausePanel.SetActive(true);
+            Time.timeScale = 0f;
+        }
+        else
+        {
+            pausePanel.SetActive(false);
+            optionsPanel.SetActive(false);
+            Time.timeScale = 1f;
+        }
+    }
 }

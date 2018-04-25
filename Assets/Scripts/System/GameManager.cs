@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        Time.timeScale = 1f;
         if (instance == null)
         {
             instance = this;
@@ -29,9 +30,9 @@ public class GameManager : MonoBehaviour
 
     private void Update ()
     {
-        if (player.GetComponent<PlayerStats>().GetPlayerState() == PlayerStats.PLAYER_STATE.DEAD)
+        if (player.GetComponent<PlayerStats>().GetPlayerState().Equals(PlayerStats.PLAYER_STATE.DEAD))
         {
-            PlayerPrefs.SetInt("highScore", player.GetComponent<PlayerStats>().score);
+            //PlayerPrefs.SetInt("highScore", player.GetComponent<PlayerStats>().score);
 
             EndGame();
         }
@@ -39,14 +40,44 @@ public class GameManager : MonoBehaviour
 
     public void EndGame()
     {
-        if (player.GetComponent<PlayerStats>().score > PlayerPrefs.GetInt("highScore"))
-            PlayerPrefs.SetInt("highScore", player.GetComponent<PlayerStats>().score);
+        HighScoreCheck();
 
+        GetComponent<UI_ShowPanels>().gameOverPanel.SetActive(true);
+        GetComponent<UI_ShowPanels>().pausePanel.SetActive(false);
+        GetComponent<UI_ShowPanels>().optionsPanel.SetActive(false);
+        Time.timeScale = 0f;
+    }
+
+    public void Quit()
+    {
         if (!Application.isEditor)
             Application.Quit();
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         else
             UnityEditor.EditorApplication.isPlaying = false;
-        #endif
+#endif
+    }
+
+    public void Restart()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Main");
+
+        //Reset player position and velocity
+        instance.player.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
+        instance.player.transform.position = new Vector3(0, 1, 0);
+
+        //Unpause game
+        
+        GetComponent<UI_ShowPanels>().gameOverPanel.SetActive(false);
+        GetComponent<UI_ShowPanels>().pausePanel.SetActive(false);
+        GetComponent<UI_ShowPanels>().optionsPanel.SetActive(false);
+
+        Time.timeScale = 1f;
+    }
+
+    public void HighScoreCheck()
+    {
+        if (player.GetComponent<PlayerStats>().score > PlayerPrefs.GetInt("highScore"))
+            PlayerPrefs.SetInt("highScore", player.GetComponent<PlayerStats>().score);
     }
 }

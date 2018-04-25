@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class FadeIn : MonoBehaviour {
+public class UI_FadeIn : MonoBehaviour {
 
     private float alphaValue;
     private Image fadeImage;

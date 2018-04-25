@@ -39,6 +39,6 @@ public class UI_Score : MonoBehaviour
             scoreText.text = "Highest: " + "\n" + GameManager.instance.player.GetComponent<PlayerStats>().score.ToString() + "m";
         }
         else
-            scoreText.text = "Current: " + "\n" + ((int)GameManager.instance.player.transform.position.y).ToString() + "m";
+            scoreText.text = "Current: " + "\n" + GameManager.instance.player.GetComponent<PlayerStats>().currentScore.ToString() + "m";
 	}
 }

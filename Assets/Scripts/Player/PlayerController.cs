@@ -26,23 +26,16 @@ public class PlayerController : MonoBehaviour
 	
 	void Update ()
     {
-        LeftRightMove(Input.GetAxis("Horizontal"));
-
-        JumpCheck();
-
-        if (Input.GetKeyDown("escape"))
+        if (!playerStats.isPaused)
         {
+            LeftRightMove(Input.GetAxis("Horizontal"));
 
-            if (GameManager.instance.GetComponent<UI_ShowPanels>().pausePanel.activeSelf)
-            {
-                Time.timeScale = 1f;
-                GameManager.instance.GetComponent<UI_ShowPanels>().pausePanel.SetActive(false);
-            }
-            else
-            {
-                Time.timeScale = 0f;
-                GameManager.instance.GetComponent<UI_ShowPanels>().pausePanel.SetActive(true);
-            }
+            JumpCheck();
+        }
+
+        if (Input.GetKeyDown("escape") && !playerStats.GetPlayerState().Equals(PlayerStats.PLAYER_STATE.DEAD))
+        {
+            GameManager.instance.GetComponent<UI_ShowPanels>().ToggleMenus();
         }
     }
 

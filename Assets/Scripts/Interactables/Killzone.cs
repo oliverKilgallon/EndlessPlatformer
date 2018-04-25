@@ -10,6 +10,8 @@ public class Killzone : MonoBehaviour {
 
     private LineRenderer line;
 
+    private PlayerStats playerStats;
+
     private void Start()
     {
         line = GetComponent<LineRenderer>();
@@ -17,18 +19,23 @@ public class Killzone : MonoBehaviour {
         line.SetPosition(0, leftEnd.transform.position);
 
         line.SetPosition(1, rightEnd.transform.position);
+
+        playerStats = GameManager.instance.player.GetComponent<PlayerStats>();
     }
 
     private void Update ()
     {
-        //Ascent speed is dependant on distance from player + a base speed
-        transform.position += 
-            new Vector3(0, 1, 0) * 
-                (baseSpeed + 
-                    ( ( GameManager.instance.player.transform.position.y - transform.position.y ) / divisor ) 
-                ) 
-            * Time.deltaTime;
-        transform.position = new Vector3(GameManager.instance.player.transform.position.x, transform.position.y, transform.position.z);
+        if (!playerStats.isPaused)
+        {
+            //Ascent speed is dependant on distance from player + a base speed
+            transform.position +=
+                new Vector3(0, 1, 0) *
+                    (baseSpeed +
+                        ((GameManager.instance.player.transform.position.y - transform.position.y) / divisor)
+                    )
+                * Time.deltaTime;
+            transform.position = new Vector3(GameManager.instance.player.transform.position.x, transform.position.y, transform.position.z);
+        }
 
         //Reset line positions
         line.SetPosition(0, leftEnd.transform.position);
