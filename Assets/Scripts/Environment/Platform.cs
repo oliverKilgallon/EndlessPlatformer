@@ -3,8 +3,19 @@ using UnityEngine;
 
 public class Platform : MonoBehaviour
 {
+    private Collider mainCollider;
 
     private bool alreadyCheckedForFall = false;
+
+    void Start()
+    {
+        Collider[] colliders = GetComponents<Collider>();
+        foreach (Collider col in colliders)
+        {
+            if (!col.isTrigger)
+                mainCollider = col;
+        }
+    }
 
     void OnCollisionEnter(Collision collision)
     {
@@ -15,6 +26,28 @@ public class Platform : MonoBehaviour
                 StartCoroutine(WillPlatformFall());
             }
             
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            if (other.gameObject.GetComponent<PlayerStats>().isPlatformPowerupActive)
+            {
+                mainCollider.enabled = false;
+            }
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            if (other.GetComponent<PlayerStats>().isPlatformPowerupActive)
+            {
+                mainCollider.enabled = true;
+            }
         }
     }
 

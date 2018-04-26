@@ -1,8 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.Audio;
 
-public class Pickup : MonoBehaviour
+public abstract class Pickup : MonoBehaviour
 {
 
     [System.Serializable]
@@ -11,7 +10,7 @@ public class Pickup : MonoBehaviour
         NOTHING,
         SLOW,
         FAST,
-        DOUBLE_SCORE
+        PLATFORM
     }
 
     public float rotSpeed;
@@ -40,7 +39,6 @@ public class Pickup : MonoBehaviour
 
         playerStats = GameManager.instance.player.GetComponent<PlayerStats>();
         
-
         #region Determine pickup type and effects
 
         //Randomise pickup type on spawn
@@ -53,7 +51,7 @@ public class Pickup : MonoBehaviour
                 pickupType = PICKUP_TYPE.SLOW;
                 break;
             case 2:
-                pickupType = PICKUP_TYPE.DOUBLE_SCORE;
+                pickupType = PICKUP_TYPE.PLATFORM;
                 break;
         }
 
@@ -71,7 +69,7 @@ public class Pickup : MonoBehaviour
                 meshRenderer.materials[1].color = Color.red;
                 pickupEffect = pickupEffects[1];
                 break;
-            case PICKUP_TYPE.DOUBLE_SCORE:
+            case PICKUP_TYPE.PLATFORM:
                 pickupGlow.color = Color.green;
                 meshRenderer.materials[1].color = Color.green;
                 pickupEffect = pickupEffects[2];
@@ -192,6 +190,17 @@ public class Pickup : MonoBehaviour
                 break;
 
             #endregion
+
+            case PICKUP_TYPE.PLATFORM:
+
+                #region Platform powerup
+                playerStats.isPlatformPowerupActive = true;
+
+                yield return new WaitForSeconds(pickupDuration);
+
+                playerStats.isPlatformPowerupActive = false;
+                break;
+                #endregion
 
             default:
                 break;

@@ -23,6 +23,8 @@ public class GameManager : MonoBehaviour
         else if (instance != this)
         {
             Destroy(gameObject);
+            enabled = false;
+            return;
         }
 
         //DontDestroyOnLoad(gameObject);

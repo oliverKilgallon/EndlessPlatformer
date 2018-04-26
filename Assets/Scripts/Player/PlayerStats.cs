@@ -24,6 +24,9 @@ public class PlayerStats : MonoBehaviour
     [HideInInspector]
     public Vector3 highestHeight;
 
+    [HideInInspector]
+    public bool isPlatformPowerupActive;
+
     public int jumpLimit;
     public float speed;
     public float jumpMultiplier;

@@ -220,6 +220,11 @@ Prefab:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 54250309571179494, guid: cea288304c9bc434aa0e63dd5e016eaa,
+        type: 2}
+      propertyPath: m_CollisionDetection
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cea288304c9bc434aa0e63dd5e016eaa, type: 2}
   m_IsPrefabParent: 0
@@ -3317,7 +3322,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.2, z: 1}
+  m_Size: {x: 10, y: 0.2, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!4 &1022792259
 Transform:
