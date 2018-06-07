@@ -12,11 +12,7 @@ public class PlayerController : MonoBehaviour
     void Awake()
     {
         audioSources = GetComponents<AudioSource>();
-        
-    }
 
-    void Start()
-    {
         rb = GetComponent<Rigidbody>();
 
         timesJumped = 0;
@@ -28,7 +24,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!playerStats.isPaused)
         {
-            LeftRightMove(Input.GetAxis("Horizontal"));
+            //LeftRightMove(Input.GetAxis("Horizontal"));
 
             JumpCheck();
         }
@@ -41,6 +37,8 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        rb.velocity = new Vector2(Input.GetAxis("Horizontal") * playerStats.speed * Time.deltaTime, rb.velocity.y);
+
         if (jumpRequest)
         {
             rb.AddForce(Vector3.up * playerStats.jumpMultiplier, ForceMode.Impulse);

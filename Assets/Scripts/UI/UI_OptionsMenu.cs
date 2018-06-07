@@ -45,17 +45,17 @@ public class UI_OptionsMenu : MonoBehaviour {
 
     public void SetMasterVolume(float volumeLevel)
     {
-        mixer.SetFloat("Master", volumeLevel);
+        mixer.SetFloat("master", volumeLevel);
     }
 
     public void SetMusicVolume(float volumeLevel)
     {
-        mixer.SetFloat("Music", volumeLevel);
+        mixer.SetFloat("music", volumeLevel);
     }
 
     public void SetSfxVolume(float volumeLevel)
     {
-        mixer.SetFloat("Sfx", volumeLevel);
+        mixer.SetFloat("sfx", volumeLevel);
     }
 
     public void SetQualityLevel(int qualityIndex)

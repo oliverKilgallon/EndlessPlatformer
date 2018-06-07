@@ -1,35 +1,56 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public abstract class Pickup : MonoBehaviour
+public class Pickup : MonoBehaviour
 {
 
     [System.Serializable]
     public enum PICKUP_TYPE
     {
-        NOTHING,
-        SLOW,
-        FAST,
-        PLATFORM
+        slow,
+        fast,
+        platform
     }
 
     public float rotSpeed;
     public float pickupDuration = 3f;
     public float scaleIncrement = 0.2f;
     public GameObject[] pickupEffects;
+    public Material[] pickupMaterials;
 
     private PICKUP_TYPE pickupType;
-    private MeshRenderer meshRenderer;
+    private Renderer meshRenderer;
     private new SphereCollider collider;
     private Light pickupGlow;
     private GameObject pickupEffect;
     private PlayerStats playerStats;
     private AudioSource source;
+    private Material[] materials;
+    public delegate void powerupFinished();
+    public static event powerupFinished platformFinished;
 
+    private void Awake()
+    {
+        //Randomise pickup type on spawn
+        switch (Random.Range(0, 3))
+        {
+            case 0:
+                pickupType = PICKUP_TYPE.fast;
+                break;
+            case 1:
+                pickupType = PICKUP_TYPE.slow;
+                break;
+            case 2:
+                pickupType = PICKUP_TYPE.platform;
+                break;
+        }
+    }
     //Acquire mesh renderer and collider for pickup
     private void Start()
     {
-        meshRenderer = GetComponent<MeshRenderer>();
+        meshRenderer = GetComponent<Renderer>();
+
+        materials = meshRenderer.materials;
 
         collider = GetComponent<SphereCollider>();
 
@@ -38,53 +59,35 @@ public abstract class Pickup : MonoBehaviour
         source = GetComponent<AudioSource>();
 
         playerStats = GameManager.instance.player.GetComponent<PlayerStats>();
-        
+
         #region Determine pickup type and effects
-
-        //Randomise pickup type on spawn
-        switch (Random.Range(0, 4))
-        {
-            case 0:
-                pickupType = PICKUP_TYPE.FAST;
-                break;
-            case 1:
-                pickupType = PICKUP_TYPE.SLOW;
-                break;
-            case 2:
-                pickupType = PICKUP_TYPE.PLATFORM;
-                break;
-        }
-
-
         //Setup visual components based on randomised type
         switch (pickupType)
         {
-            case PICKUP_TYPE.FAST:
-                pickupGlow.color = Color.blue;
-                meshRenderer.materials[1].color = Color.blue;
+            
+            case PICKUP_TYPE.fast:
+                pickupGlow.color = Color.cyan;
+                materials[1] = pickupMaterials[0];
                 pickupEffect = pickupEffects[0];
                 break;
-            case PICKUP_TYPE.SLOW:
+            case PICKUP_TYPE.slow:
                 pickupGlow.color = Color.red;
-                meshRenderer.materials[1].color = Color.red;
+                materials[1] = pickupMaterials[1];
                 pickupEffect = pickupEffects[1];
                 break;
-            case PICKUP_TYPE.PLATFORM:
+            case PICKUP_TYPE.platform:
                 pickupGlow.color = Color.green;
-                meshRenderer.materials[1].color = Color.green;
+                materials[1] = pickupMaterials[2];
                 pickupEffect = pickupEffects[2];
                 break;
             default:
-                pickupGlow.color = Color.magenta;
-                meshRenderer.materials[1].color = Color.magenta;
+                pickupGlow.color = Color.cyan;
+                materials[1] = pickupMaterials[0];
                 pickupEffect = pickupEffects[0];
                 break;
         }
 
-        //ParticleSystem ps = pickupEffect.GetComponent<ParticleSystem>();
-        //ps.Stop();
-        //var main = ps.main;
-        //main.duration = pickupDuration;
+        meshRenderer.materials = materials;
 
         #endregion
     }
@@ -96,8 +99,6 @@ public abstract class Pickup : MonoBehaviour
         {
             //Spawn relevant pickup effect
             Instantiate(pickupEffect, transform.position, transform.rotation);
-            
-            playerStats.powerupsStacked++;
             
             StartCoroutine( Collect(other) );
         }
@@ -119,7 +120,7 @@ public abstract class Pickup : MonoBehaviour
         
         switch (pickupType)
         {
-            case PICKUP_TYPE.SLOW:
+            case PICKUP_TYPE.slow:
 
                 #region Slow powerup
 
@@ -154,7 +155,7 @@ public abstract class Pickup : MonoBehaviour
 
             #endregion
 
-            case PICKUP_TYPE.FAST:
+            case PICKUP_TYPE.fast:
 
                 #region Fast powerup
 
@@ -191,7 +192,7 @@ public abstract class Pickup : MonoBehaviour
 
             #endregion
 
-            case PICKUP_TYPE.PLATFORM:
+            case PICKUP_TYPE.platform:
 
                 #region Platform powerup
                 playerStats.isPlatformPowerupActive = true;
@@ -199,15 +200,17 @@ public abstract class Pickup : MonoBehaviour
                 yield return new WaitForSeconds(pickupDuration);
 
                 playerStats.isPlatformPowerupActive = false;
+
+                if (platformFinished != null)
+                {
+                    platformFinished();
+                }
                 break;
                 #endregion
 
             default:
                 break;
         }
-
-        if (playerStats.powerupsStacked > 0)
-            playerStats.powerupsStacked--;
 
         Destroy(gameObject);
     }

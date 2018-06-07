@@ -7,6 +7,16 @@ public class Platform : MonoBehaviour
 
     private bool alreadyCheckedForFall = false;
 
+    private void Awake()
+    {
+        Pickup.platformFinished += OnPlatformPowerupComplete;   
+    }
+
+    private void OnDisable()
+    {
+        Pickup.platformFinished -= OnPlatformPowerupComplete;
+    }
+
     void Start()
     {
         Collider[] colliders = GetComponents<Collider>();
@@ -38,6 +48,11 @@ public class Platform : MonoBehaviour
                 mainCollider.enabled = false;
             }
         }
+    }
+
+    void OnPlatformPowerupComplete()
+    {
+        mainCollider.enabled = true;
     }
 
     void OnTriggerExit(Collider other)
