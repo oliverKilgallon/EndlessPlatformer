@@ -18,12 +18,19 @@ public class UI_ShowPanels : MonoBehaviour {
         if (!pausePanel.activeInHierarchy && !optionsPanel.activeInHierarchy)
         {
             pausePanel.SetActive(true);
+
+            AudioManager.instance.PauseSound("Theme");
+
             Time.timeScale = 0f;
         }
         else
         {
             pausePanel.SetActive(false);
+
             optionsPanel.SetActive(false);
+
+            AudioManager.instance.UnPauseSound("Theme");
+
             Time.timeScale = 1f;
         }
     }

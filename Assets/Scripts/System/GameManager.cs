@@ -47,6 +47,9 @@ public class GameManager : MonoBehaviour
         GetComponent<UI_ShowPanels>().gameOverPanel.SetActive(true);
         GetComponent<UI_ShowPanels>().pausePanel.SetActive(false);
         GetComponent<UI_ShowPanels>().optionsPanel.SetActive(false);
+
+        AudioManager.instance.StopSound("Theme");
+
         Time.timeScale = 0f;
     }
 
@@ -54,10 +57,10 @@ public class GameManager : MonoBehaviour
     {
         if (!Application.isEditor)
             Application.Quit();
-#if UNITY_EDITOR
+        #if UNITY_EDITOR
         else
             UnityEditor.EditorApplication.isPlaying = false;
-#endif
+        #endif
     }
 
     public void Restart()

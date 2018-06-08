@@ -4,16 +4,11 @@ public class Killzone : MonoBehaviour {
     
     public GameObject leftEnd;
     public GameObject rightEnd;
-<<<<<<< HEAD
+
     public float baseSpeed = 0.5f;
     public float divisor = 5f;
     private float ascentSpeed;
-=======
-    public float baseSpeed;
-    public float divisor;
->>>>>>> Adding builds to git repo
 
-    private float ascentSpeed;
     private LineRenderer line;
 
     private PlayerStats playerStats;
@@ -31,7 +26,6 @@ public class Killzone : MonoBehaviour {
 
     private void Update ()
     {
-<<<<<<< HEAD
         if (!playerStats.isPaused)
         {
             //Ascent speed is dependant on distance from player + a base speed
@@ -45,7 +39,6 @@ public class Killzone : MonoBehaviour {
         }
 
         //Reset line positions
-=======
         //Speed is greater the further the killzone is from the player
         ascentSpeed = baseSpeed + 
             ( -( transform.position.y - GameManager.instance.player.transform.position.y ) / 5f);
@@ -59,7 +52,6 @@ public class Killzone : MonoBehaviour {
             transform.position.z);
 
         //Reset line renderer positions
->>>>>>> Adding builds to git repo
         line.SetPosition(0, leftEnd.transform.position);
         line.SetPosition(1, rightEnd.transform.position);
     }

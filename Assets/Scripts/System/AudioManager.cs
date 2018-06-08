@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System;
 
 public class AudioManager : MonoBehaviour
@@ -41,10 +42,16 @@ public class AudioManager : MonoBehaviour
     void Start()
     {
         PlaySound("Theme", false);
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode sceneMode)
+    {
+        PlaySound("Theme", false);
     }
 
     public void PlaySound(string name, bool isPitchVariable)
-    {
+    {  
         Sound s = Array.Find(sounds, sound => sound.name == name);
 
         if (s == null)
@@ -57,5 +64,35 @@ public class AudioManager : MonoBehaviour
         }
 
         s.source.Play();
+    }
+
+    public void PauseSound(string name)
+    {
+        Sound s = Array.Find(sounds, sound => sound.name == name);
+
+        if (s == null)
+            return;
+        
+        s.source.Pause();
+    }
+
+    public void UnPauseSound(string name)
+    {
+        Sound s = Array.Find(sounds, sound => sound.name == name);
+
+        if (s == null)
+            return;
+
+        s.source.UnPause();
+    }
+
+    public void StopSound(string name)
+    {
+        Sound s = Array.Find(sounds, sound => sound.name == name);
+
+        if (s == null)
+            return;
+
+        s.source.Stop();
     }
 }

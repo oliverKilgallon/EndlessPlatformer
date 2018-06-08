@@ -4,6 +4,7 @@ public class UI_PausePanel : MonoBehaviour {
     
     public void Resume()
     {
+        AudioManager.instance.UnPauseSound("Theme");
         gameObject.SetActive(false);
         Time.timeScale = 1f;
     }

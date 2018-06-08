@@ -3,10 +3,15 @@
 public class PlayerController : MonoBehaviour
 {
     public GameObject landingEffect;
-    private int timesJumped;
+
     private Rigidbody rb;
+
     private PlayerStats playerStats;
+
     private AudioSource[] audioSources;
+
+    private int timesJumped;
+
     private bool jumpRequest;
 
     void Awake()
@@ -23,16 +28,10 @@ public class PlayerController : MonoBehaviour
 	void Update ()
     {
         if (!playerStats.isPaused)
-        {
-            //LeftRightMove(Input.GetAxis("Horizontal"));
-
             JumpCheck();
-        }
 
         if (Input.GetKeyDown("escape") && !playerStats.GetPlayerState().Equals(PlayerStats.PLAYER_STATE.DEAD))
-        {
             GameManager.instance.GetComponent<UI_ShowPanels>().ToggleMenus();
-        }
     }
 
     private void FixedUpdate()
